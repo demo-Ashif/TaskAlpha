@@ -22,6 +22,9 @@ interface TaskDao {
     @Query("SELECT * FROM task_table WHERE id =:id")
     fun getTaskDetail(id: String): TasksEntity
 
+    @Query("UPDATE task_table SET taskStatus = NOT taskStatus WHERE id = :taskId")
+    suspend fun updateTaskById(taskId: String)
+
     @Query("DELETE FROM task_table")
     suspend fun deleteAllTasks()
 }

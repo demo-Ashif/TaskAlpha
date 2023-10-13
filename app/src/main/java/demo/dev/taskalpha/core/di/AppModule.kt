@@ -15,6 +15,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import demo.dev.taskalpha.data.repository.TaskRepositoryImpl
 import demo.dev.taskalpha.domain.usecases.CreateNewTaskUseCase
+import demo.dev.taskalpha.domain.usecases.UpdateTaskStatusUseCase
 import javax.inject.Singleton
 
 @Module
@@ -30,7 +31,8 @@ object AppModule {
     fun provideTaskUseCases(taskRepository: TaskRepository) = TaskUseCase(
         getTaskListUseCase = GetTaskListUseCase(taskRepository = taskRepository),
         getTaskDetailUseCase = GetTaskDetailUseCase(taskRepository = taskRepository),
-        createNewTaskUseCase = CreateNewTaskUseCase(taskRepository = taskRepository)
+        createNewTaskUseCase = CreateNewTaskUseCase(taskRepository = taskRepository),
+        updateTaskStatusUseCase = UpdateTaskStatusUseCase(taskRepository = taskRepository)
     )
 
     @Provides

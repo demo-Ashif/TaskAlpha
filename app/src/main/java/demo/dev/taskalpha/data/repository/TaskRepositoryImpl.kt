@@ -22,7 +22,7 @@ class TaskRepositoryImpl(
     }
 
     override suspend fun updateTaskById(id: String) {
-        TODO("Not yet implemented")
+        dao.updateTaskById(id)
     }
 
     override suspend fun createNewTask(task: Task) {

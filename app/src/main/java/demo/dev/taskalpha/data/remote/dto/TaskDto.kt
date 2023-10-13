@@ -6,7 +6,7 @@ import demo.dev.taskalpha.data.local.entities.TasksEntity
 data class TaskDto(
 val id:String,
     val title: String,
-    val taskStatus: Int=0,
+    val taskStatus: Boolean,
     val description: String?,
     val updatedAt: Long
 ) {

@@ -19,7 +19,7 @@ fun NavGraph(navController: NavHostController) {
             SplashScreen(navController = navController)
         }
         composable(route = Screen.TaskList.route) {
-            TaskListScreen(navController = navController)
+            TaskListScreen(navController = navController, viewModel = hiltViewModel())
         }
 
         composable(route = Screen.TaskCreate.route) {

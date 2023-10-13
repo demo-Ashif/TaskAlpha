@@ -15,7 +15,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.sharp.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -32,7 +31,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -45,7 +43,6 @@ import demo.dev.taskalpha.presentation.viewmodels.TaskEvents
 import demo.dev.taskalpha.presentation.viewmodels.TaskViewModel
 import kotlinx.coroutines.flow.collectLatest
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TaskCreateScreen(
     viewModel: TaskViewModel = hiltViewModel(),
@@ -53,11 +50,7 @@ fun TaskCreateScreen(
     navController: NavHostController
 ) {
 
-    val titleState = viewModel.taskTitle.value
-    val descriptionState = viewModel.taskDescription.value
-
     val snackbarHostState = remember { SnackbarHostState() }
-    val scope = rememberCoroutineScope()
 
     LaunchedEffect(key1 = true) {
         viewModel.eventFlow.collectLatest { event ->
@@ -79,15 +72,7 @@ fun TaskCreateScreen(
         }
     }
 
-
     TaskAlphaTheme {
-
-        val title = ""
-        val body = ""
-        val id = " vm.noteId.observeAsState()"
-        val ctx = LocalContext.current
-
-
         Scaffold(
             snackbarHost = { SnackbarHost(snackbarHostState) },
             topBar = {
@@ -100,12 +85,12 @@ fun TaskCreateScreen(
                     Icon(
                         imageVector = Icons.Sharp.ArrowBack,
                         tint = Purple40,
-                        contentDescription = "back-buttom",
+                        contentDescription = "back-button",
                         modifier = Modifier
                             .padding(end = 6.dp, top = 8.dp)
                             .size(30.dp)
                             .clickable {
-                                backPress.invoke()
+                                navController.navigateUp()
                             }
                     )
                     Spacer(modifier = Modifier.width(8.dp))
@@ -140,9 +125,9 @@ fun AddTask(viewModel: TaskViewModel) {
     ) {
         Spacer(modifier = Modifier.height(20.dp))
         OutlinedTextField(
-            value = "Insert Note",
+            value = viewModel.taskTitle.value.text,
             onValueChange = {
-
+                viewModel.onEvent(TaskEvents.EnteredTitle(it))
             },
             modifier = Modifier.fillMaxWidth(),
             label = { Text(text = " Task Title ") },
@@ -157,11 +142,11 @@ fun AddTask(viewModel: TaskViewModel) {
             modifier = Modifier
                 .fillMaxWidth()
                 .defaultMinSize(minHeight = 90.dp),
-            value = "Insert Description",
+            value = viewModel.taskDescription.value.text,
             onValueChange = {
-
+                viewModel.onEvent(TaskEvents.EnteredDescription(it))
             },
-            label = { Text(text = "Note Details ") },
+            label = { Text(text = "Task Description ") },
             colors = OutlinedTextFieldDefaults.colors(
                 focusedBorderColor = Purple40,
                 unfocusedBorderColor = Purple80,

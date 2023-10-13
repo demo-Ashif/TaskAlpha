@@ -14,7 +14,7 @@ data class Task(
         return TasksEntity(
             id = id,
             taskTitle = taskTitle,
-            taskStatus = if (taskStatus) 1 else 0,
+            taskStatus = taskStatus,
             taskDescription = taskDescription,
             taskUpdatedAt = taskUpdatedAt
         )

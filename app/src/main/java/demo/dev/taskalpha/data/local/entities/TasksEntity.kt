@@ -11,7 +11,7 @@ data class TasksEntity(
     val id: String,
     val taskTitle: String,
     val taskDescription: String,
-    val taskStatus:Int,
+    val taskStatus:Boolean,
     val taskUpdatedAt: Long,
 ) {
     fun toTask(): Task {
@@ -19,7 +19,7 @@ data class TasksEntity(
             id = id,
             taskTitle = taskTitle,
             taskDescription = taskDescription,
-            taskStatus= taskStatus==1,
+            taskStatus= taskStatus,
             taskUpdatedAt = taskUpdatedAt
         )
     }
