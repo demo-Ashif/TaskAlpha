@@ -8,4 +8,6 @@ interface TaskRepository {
     suspend fun getTaskDetail(id: String): Task?
     suspend fun updateTaskById(id: String)
     suspend fun createNewTask(task: Task)
+
+    suspend fun triggerTaskSync()
 }

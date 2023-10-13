@@ -14,7 +14,9 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import demo.dev.taskalpha.data.repository.TaskRepositoryImpl
+import demo.dev.taskalpha.data.worker.SyncManager
 import demo.dev.taskalpha.domain.usecases.CreateNewTaskUseCase
+import demo.dev.taskalpha.domain.usecases.TriggerTaskSyncUseCase
 import demo.dev.taskalpha.domain.usecases.UpdateTaskStatusUseCase
 import javax.inject.Singleton
 
@@ -23,8 +25,8 @@ import javax.inject.Singleton
 object AppModule {
     @Provides
     @Singleton
-    fun provideTaskRepository(taskApi: TaskApi, taskDB: TaskDB): TaskRepository =
-        TaskRepositoryImpl(taskApi = taskApi, taskDB = taskDB)
+    fun provideTaskRepository(taskApi: TaskApi, taskDB: TaskDB, syncManager: SyncManager): TaskRepository =
+        TaskRepositoryImpl(taskApi = taskApi, taskDB = taskDB, syncManager = syncManager )
 
     @Provides
     @Singleton
@@ -32,7 +34,8 @@ object AppModule {
         getTaskListUseCase = GetTaskListUseCase(taskRepository = taskRepository),
         getTaskDetailUseCase = GetTaskDetailUseCase(taskRepository = taskRepository),
         createNewTaskUseCase = CreateNewTaskUseCase(taskRepository = taskRepository),
-        updateTaskStatusUseCase = UpdateTaskStatusUseCase(taskRepository = taskRepository)
+        updateTaskStatusUseCase = UpdateTaskStatusUseCase(taskRepository = taskRepository),
+        triggerTaskSyncUseCase = TriggerTaskSyncUseCase(taskRepository = taskRepository)
     )
 
     @Provides

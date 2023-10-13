@@ -2,6 +2,7 @@ package demo.dev.taskalpha.data.repository
 
 import demo.dev.taskalpha.data.local.TaskDB
 import demo.dev.taskalpha.data.remote.api.TaskApi
+import demo.dev.taskalpha.data.worker.SyncManager
 import demo.dev.taskalpha.domain.model.Task
 import demo.dev.taskalpha.domain.repository.TaskRepository
 import kotlinx.coroutines.flow.Flow
@@ -9,7 +10,8 @@ import kotlinx.coroutines.flow.map
 
 class TaskRepositoryImpl(
     private val taskApi: TaskApi,
-    private val taskDB: TaskDB
+    private val taskDB: TaskDB,
+    private val syncManager: SyncManager
 ) : TaskRepository {
 
     private val dao = taskDB.taskDao()
@@ -55,6 +57,10 @@ class TaskRepositoryImpl(
 //        } catch (e: Exception) {
 //            Result.failure(e)
 //        }
+    }
+
+    override suspend fun triggerTaskSync() {
+        syncManager.syncData()
     }
 
 
