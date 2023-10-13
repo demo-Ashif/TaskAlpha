@@ -10,14 +10,17 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface TaskDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertTasks(taskEntityList: List<TasksEntity>)
+    suspend fun insertTasks(tasksEntities: List<TasksEntity>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun createTask(tasksEntity: TasksEntity)
 
     @Query("SELECT * FROM task_table")
 //    fun getAllTasks(): PagingSource<Int, TasksEntity>
-    fun getAllTasks(): List<TasksEntity>
+    fun getAllTasks(): Flow<List<TasksEntity>>
 
     @Query("SELECT * FROM task_table WHERE id =:id")
-    fun getTaskDetail(id: String): Flow<TasksEntity>
+    fun getTaskDetail(id: String): TasksEntity
 
     @Query("DELETE FROM task_table")
     suspend fun deleteAllTasks()

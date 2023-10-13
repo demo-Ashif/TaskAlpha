@@ -75,7 +75,7 @@ class TaskRemoteMediator(
 
                 val keys = response.body()?.taskListDto?.map { task ->
                     TaskRemoteKeysEntity(
-                        id = task.generateUniqueId(),
+                        id = task.id,
                         prevPage = prevPage,
                         nextPage = nextPage
                     )

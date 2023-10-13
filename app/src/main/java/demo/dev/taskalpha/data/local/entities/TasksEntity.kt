@@ -11,13 +11,15 @@ data class TasksEntity(
     val id: String,
     val taskTitle: String,
     val taskDescription: String,
-    val taskUpdatedAt: String,
+    val taskStatus:Int,
+    val taskUpdatedAt: Long,
 ) {
     fun toTask(): Task {
         return Task(
             id = id,
             taskTitle = taskTitle,
             taskDescription = taskDescription,
+            taskStatus= taskStatus==1,
             taskUpdatedAt = taskUpdatedAt
         )
     }
