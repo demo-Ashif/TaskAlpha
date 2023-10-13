@@ -1,6 +1,7 @@
 package demo.dev.taskalpha.domain.model
 
 import demo.dev.taskalpha.data.local.entities.TasksEntity
+import demo.dev.taskalpha.data.remote.dto.TaskDto
 
 data class Task(
     val id: String,
@@ -17,6 +18,17 @@ data class Task(
             taskStatus = taskStatus,
             taskDescription = taskDescription,
             taskUpdatedAt = taskUpdatedAt
+        )
+    }
+
+    fun toTaskDto(): TaskDto {
+
+        return TaskDto(
+            id = id,
+            title = taskTitle,
+            taskStatus = taskStatus,
+            description = taskDescription,
+            updatedAt = taskUpdatedAt
         )
     }
 }

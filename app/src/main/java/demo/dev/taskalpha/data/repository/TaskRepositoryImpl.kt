@@ -15,6 +15,7 @@ class TaskRepositoryImpl(
     private val dao = taskDB.taskDao()
     override fun getAllTask(): Flow<List<Task>> {
         return dao.getAllTasks().map { tasksEntities -> tasksEntities.map { it.toTask() } }
+
     }
 
     override suspend fun getTaskDetail(id: String): Task {
@@ -23,10 +24,37 @@ class TaskRepositoryImpl(
 
     override suspend fun updateTaskById(id: String) {
         dao.updateTaskById(id)
+
+        // Dummy call to the server for demo purposes
+
+//        try {
+//
+//            val response = taskApi.updateTask(id)
+//            if (response.isSuccessful) {
+//                Result.success(Unit)
+//            } else {
+//                Result.failure(Exception("API call failed"))
+//            }
+//        } catch (e: Exception) {
+//            Result.failure(e)
+//        }
     }
 
     override suspend fun createNewTask(task: Task) {
         dao.createTask(task.toTaskEntity())
+
+        // Dummy call to the server for demo purposes
+//        try {
+//
+//            val response = taskApi.createTask(task.toTaskDto())
+//            if (response.isSuccessful) {
+//                Result.success(Unit)
+//            } else {
+//                Result.failure(Exception("API call failed"))
+//            }
+//        } catch (e: Exception) {
+//            Result.failure(e)
+//        }
     }
 
 
