@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
 private val DarkColorPalette = darkColorScheme(
-    primary = Color(0xFF4A90E2),
+    primary = Color(0xFF61A3F0),
     onPrimary = Color.White,
     secondary = Color(0xFF4CAF50),
     background = Color(0xFF121212), // Dark background for dark theme
@@ -18,7 +18,7 @@ private val DarkColorPalette = darkColorScheme(
 )
 
 private val LightColorPalette = lightColorScheme(
-    primary = Color(0xFF4A90E2),  // Blue-ish color for FAB
+    primary = Color(0xFF61A3F0),  // Blue-ish color for FAB
     onPrimary = Color.White,     // Text color on the FAB
     secondary = Color(0xFF4CAF50), // Green color for check marks
     background = Color(0xFFF5F5F5), // Light background color

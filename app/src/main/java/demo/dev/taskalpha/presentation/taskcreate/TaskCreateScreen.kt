@@ -15,6 +15,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.sharp.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -26,10 +27,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -39,14 +40,11 @@ import androidx.navigation.NavHostController
 import demo.dev.taskalpha.presentation.theme.Purple40
 import demo.dev.taskalpha.presentation.theme.Purple80
 import demo.dev.taskalpha.presentation.theme.TaskAlphaTheme
-import demo.dev.taskalpha.presentation.viewmodels.TaskEvents
-import demo.dev.taskalpha.presentation.viewmodels.TaskViewModel
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun TaskCreateScreen(
-    viewModel: TaskViewModel = hiltViewModel(),
-    backPress: () -> Unit,
+    viewModel: TaskCreateViewModel = hiltViewModel(),
     navController: NavHostController
 ) {
 
@@ -55,17 +53,17 @@ fun TaskCreateScreen(
     LaunchedEffect(key1 = true) {
         viewModel.eventFlow.collectLatest { event ->
             when (event) {
-                is TaskViewModel.UiEvent.ShowSnackbar -> {
+                is TaskCreateViewModel.UiEvent.ShowSnackbar -> {
                     snackbarHostState.showSnackbar(
                         message = event.message
                     )
                 }
 
-                is TaskViewModel.UiEvent.SaveTask -> {
+                is TaskCreateViewModel.UiEvent.SaveTask -> {
                     navController.navigateUp()
                 }
 
-                TaskViewModel.UiEvent.UpdateTask -> {
+                TaskCreateViewModel.UiEvent.UpdateTask -> {
                     navController.navigateUp()
                 }
             }
@@ -77,17 +75,17 @@ fun TaskCreateScreen(
             snackbarHost = { SnackbarHost(snackbarHostState) },
             topBar = {
                 Row(
+                    verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
-                        .padding(8.dp)
                         .fillMaxWidth()
                 ) {
                     Spacer(modifier = Modifier.width(4.dp))
                     Icon(
                         imageVector = Icons.Sharp.ArrowBack,
-                        tint = Purple40,
+                        tint = MaterialTheme.colorScheme.primary,
                         contentDescription = "back-button",
                         modifier = Modifier
-                            .padding(end = 6.dp, top = 8.dp)
+                            .padding(horizontal = 16.dp, vertical = 24.dp)
                             .size(30.dp)
                             .clickable {
                                 navController.navigateUp()
@@ -98,7 +96,7 @@ fun TaskCreateScreen(
                         modifier = Modifier.padding(bottom = 8.dp),
                         text = "📝 Create New Task",
                         style = MaterialTheme.typography.bodyMedium,
-                        fontSize = 24.sp,
+                        fontSize = 22.sp,
                     )
                 }
             }
@@ -106,14 +104,19 @@ fun TaskCreateScreen(
             val contentModifier = Modifier
                 .padding(paddingValues)
 
-            AddTask(viewModel = viewModel)
+            Column (
+                modifier = Modifier
+                    .padding(top = 24.dp)
+            ){
+                AddTask(viewModel = viewModel)
+            }
         }
     }
 
 }
 
 @Composable
-fun AddTask(viewModel: TaskViewModel) {
+fun AddTask(viewModel: TaskCreateViewModel) {
     Column(
         modifier = Modifier
             .background(Color.White)
@@ -134,7 +137,7 @@ fun AddTask(viewModel: TaskViewModel) {
 
             colors = OutlinedTextFieldDefaults.colors(
                 focusedBorderColor = Purple40,
-                unfocusedBorderColor = Purple80,
+                unfocusedBorderColor = MaterialTheme.colorScheme.primary,
             ),
         )
         Spacer(modifier = Modifier.height(20.dp))
@@ -149,27 +152,21 @@ fun AddTask(viewModel: TaskViewModel) {
             label = { Text(text = "Task Description ") },
             colors = OutlinedTextFieldDefaults.colors(
                 focusedBorderColor = Purple40,
-                unfocusedBorderColor = Purple80,
+                unfocusedBorderColor = MaterialTheme.colorScheme.primary,
             ),
         )
-        Spacer(modifier = Modifier.height(50.dp))
-        Row {
-            Button(
-                colors = ButtonDefaults.buttonColors(containerColor = Purple80),
+        Spacer(modifier = Modifier.height(30.dp))
+        Row (
+            modifier= Modifier
+                .padding(horizontal = 24.dp)
+        ){
+
+            ElevatedButton(
                 modifier = Modifier
-                    .clip(RoundedCornerShape(20.dp))
-                    .background(Purple40)
-                    .width(100.dp),
-                onClick = {
-                    viewModel.onEvent(TaskEvents.SaveTask)
-                }) {
-                Text(
-                    modifier = Modifier.padding(bottom = 4.dp),
-                    text = "Create Task",
-                    color = Color.White,
-                    style = MaterialTheme.typography.bodyMedium,
-                    fontSize = 16.sp,
-                )
+                    .defaultMinSize(minHeight = 40.dp)
+                    .fillMaxWidth(),
+                onClick = { viewModel.onEvent(TaskEvents.SaveTask) }) {
+                Text("Create Task",fontSize = 16.sp)
             }
         }
     }

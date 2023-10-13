@@ -23,7 +23,7 @@ fun NavGraph(navController: NavHostController) {
         }
 
         composable(route = Screen.TaskCreate.route) {
-            TaskCreateScreen(viewModel = hiltViewModel(), navController = navController, backPress = {})
+            TaskCreateScreen(viewModel = hiltViewModel(), navController = navController)
         }
     }
 }
