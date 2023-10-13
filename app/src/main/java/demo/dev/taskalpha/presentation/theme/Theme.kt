@@ -1,4 +1,4 @@
-package demo.dev.taskalpha.ui.theme
+package demo.dev.taskalpha.presentation.theme
 
 import android.app.Activity
 import android.os.Build

@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "demo.dev.taskalpha"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "demo.dev.taskalpha"
@@ -98,6 +98,10 @@ dependencies {
     implementation ("androidx.room:room-ktx:2.5.2")
     kapt( "androidx.room:room-compiler:2.5.2")
     implementation ("androidx.room:room-paging:2.5.2")
+
+    //Lottie
+    implementation ("com.airbnb.android:lottie:6.1.0")
+    implementation ("com.airbnb.android:lottie-compose:6.1.0")
 }
 
 kapt {
